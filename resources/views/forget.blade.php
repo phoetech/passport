@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="login-scrollView login-card">
-  <login></login>
+  <forget></forget>
 </section>
 @endsection
 

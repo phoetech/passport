@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return view('welcome');
+});
+
+Route::get('/forget', function () {
+        return view('forget');
+    });
+
+Route::get('/register', function () {
+        return view('register');
+    });
+
+// Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// Route::get('/r/{referral}', 'Auth\RegisterController@showRegistrationForm');

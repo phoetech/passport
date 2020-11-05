@@ -1,0 +1,131 @@
+// Fonts
+// @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+$ys-radio-checked-color: #3b42a2;
+$ys-radio-border-color: #8e94aa;
+$ys-radio-size: 20px;
+$ys-radio-checked-size: 10px;
+$ys-radio-ripple-size: 15px;
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0px 0px 0px $ys-radio-ripple-size rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 0px 0px 0px $ys-radio-ripple-size rgba(0, 0, 0, 0);
+  }
+}
+
+.nav>li>a .badge-danger{
+  background-color: #f42942
+}
+.ys-radio {
+  margin: 0px 0;
+
+  &.ys-radio-inline {
+    display: inline-block;
+  }
+
+  input[type="radio"] {
+    display: none;
+    &:checked + label:before {
+      border-color: $ys-radio-checked-color;
+      animation: ripple 0.2s linear forwards;
+    }
+    &:checked + label:after {
+      transform: scale(1);
+    }
+  }
+
+  label {
+    display: inline-block;
+    min-height: $ys-radio-size;
+    position: relative;
+    padding: 0 ($ys-radio-size + 10px);
+    margin-bottom: 0;
+    cursor: pointer;
+    vertical-align: bottom;
+    &:before,
+    &:after {
+      position: absolute;
+      content: "";
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      transition-property: transform, border-color;
+    }
+    &:before {
+      left: 0;
+      top: 0;
+      width: $ys-radio-size;
+      height: $ys-radio-size;
+      border: 2px solid $ys-radio-border-color;
+    }
+    &:after {
+      top: $ys-radio-size / 2 - $ys-radio-checked-size / 2;
+      left: $ys-radio-size / 2 - $ys-radio-checked-size / 2;
+      width: $ys-radio-checked-size;
+      height: $ys-radio-checked-size;
+      transform: scale(0);
+      background: $ys-radio-checked-color;
+    }
+  }
+}
+
+.ys-radio-disabled {
+  color: #a9a9a9;
+}
+#inviteApp {
+  max-width: 768px;
+  color: #1e205a;
+  background-color: #f4f8f7;
+  min-height: 100%;
+}
+
+#inviteApp .avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+#inviteApp .refer-avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+}
+
+#inviteApp .bundle-pic {
+  width: 100%;
+  max-width: 375px;
+}
+
+#inviteApp .productPic {
+  width: 55px;
+  height: 55px;
+}
+#inviteApp .productName {
+  margin: 5px 0px;
+  font-size: 16px;
+}
+
+#inviteApp .productSubName {
+  font-size: 14px;
+}
+#inviteApp .productPrice {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1e205a;
+}
