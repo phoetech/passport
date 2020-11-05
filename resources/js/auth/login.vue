@@ -6,7 +6,10 @@
         <span class="step2 fr">
           PHOETECH.COM
         </span>
-        <form method="post">
+        <form action = "/login" @submit="onLogin" method="post">
+          <input type="hidden" name="_token" :value="csrf_token">
+          <input type="hidden" name="lang" v-model="lang">
+          <input type="hidden" name="identifier" v-model="identifier">
           <!-- <div class="intl-phone-input allow-dropdown int-phone">
             <div class="flag-container">
               <div class="selected-flag">
@@ -27,12 +30,12 @@
             class="int-phone"
           ></intel-phone>
           <input type="password" name="password" :placeholder="$t('loginPassword')"> <!----> 
-          <button class="ysbtn">{{$t('login')}}</button>
+          <button class="ysbtn" type="submit">{{$t('login')}}</button>
         </form>
         <div class="register-top">
           <span class="fl"><a href="/forget" >{{$t('forgetPassword')}}</a></span>
           <span class="fr">{{$t('doNotHaveAccount')}}
-      <a href="/register" class="blue">{{$t('register')}}</a></span>
+          <a href="/register" class="blue">{{$t('register')}}</a></span>
         </div>
       </div>
     </div>
@@ -99,7 +102,7 @@ export default {
         password: this.password
       };
       this.$http
-        .post("/auth/login", data)
+        .post("/api/login", data)
         .then(response => {
           return response.json();
         })
