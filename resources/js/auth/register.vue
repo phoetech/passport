@@ -1,159 +1,123 @@
 <template>
-  <div class="row no-gutters justify-content-center">
-    <div class="card card-default border-0 login-card">
+  <div class="login-aside">
+    <div id="o-box-down">
       <div class="card-body">
-        <h2>
           {{$t('register')}}
           <span class="step float-right">
             <lj-step ref="ysstep" :count="3"></lj-step>
           </span>
-        </h2>
-        <form method="post" @submit.prevent="submit">
-          <input
-            type="hidden"
-            name="phone"
-            v-model="phone"
-            ref="phone"
-            v-validate="'required|min:8|max:12|numeric'"
-          >
-          <input type="hidden" name="_token" :value="csrf_token">
-          <input type="hidden" name="ccc" v-model="countryCallCode">
-          <input type="hidden" name="cc" v-model="countryCode">
-          <div v-show="step==1">
-            <div class="input-select" :class="{'err': errors.has('country') }">
-              <select
-                id="apply_id_country"
-                name="country"
-                v-model="countryCode"
-                v-validate="'required|min:2|max:5'"
-                @change="changeCountry"
-              >
-                <option value="0" selected>{{$t('selectCountry')}}</option>
-                <option
-                  v-for="(country, index) in countryList"
-                  :disabled="country.code=='00'"
-                  v-bind:value="country.code"
-                  v-bind:key="'country'+index"
-                >{{ country.name }} {{ country.in }}</option>
-              </select>
-            </div>
-            <intel-phone
-              ref="intPhone"
-              :placeholder="$t('phone')"
-              :to-front="preferredCountries"
+          <form method="post" @submit.prevent="submit">
+            <input
+              type="hidden"
+              name="phone"
               v-model="phone"
-              :onChange="onInput"
-              :onInit="onInit"
-              :disabled="true"
-              :code="countryCode"
-              :cClass="errors.has('phone')?'err':''"
-              :phone-length="phoneMaxLength"
-            ></intel-phone>
-            <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
-            <button v-if="!isSubmit" @click="checkPhone" class="ysbtn">{{$t('continue')}}</button>
-          </div>
-          <div v-show="step==2">
-            <div class="pincode">
-              <input
-                :class="{'err': errors.has('code') }"
-                type="text"
-                name="code"
-                maxlength="6"
-                v-model="code"
-                v-validate="'required|digits:6'"
-                :placeholder="$t('pincode')"
-              >
-              <a
-                href="#"
-                class="blue send-code"
-                @click="sendCode"
-              >{{ coolDown>0 ? coolDown + $t("coolDown") : (isSend ? $t('sendCodeSend'):$t('sendCode'))}}</a>
+              ref="phone"
+              v-validate="'required|min:8|max:12|numeric'"
+            >
+            <input type="hidden" name="_token" :value="csrf_token">
+            <input type="hidden" name="ccc" v-model="countryCallCode">
+            <input type="hidden" name="cc" v-model="countryCode">
+            <div v-show="step==1">
+              <div class="input-select" :class="{'err': errors.has('country') }">
+                <select
+                  id="apply_id_country"
+                  name="country"
+                  v-model="countryCode"
+                  v-validate="'required|min:2|max:5'"
+                  @change="changeCountry"
+                >
+                  <option value="0" selected>{{$t('selectCountry')}}</option>
+                  <option
+                    v-for="(country, index) in countryList"
+                    :disabled="country.code=='00'"
+                    v-bind:value="country.code"
+                    v-bind:key="'country'+index"
+                  >{{ country.name }} {{ country.in }}</option>
+                </select>
+              </div>
+              <intel-phone
+                ref="intPhone"
+                :placeholder="$t('phone')"
+                :to-front="preferredCountries"
+                v-model="phone"
+                :onChange="onInput"
+                :onInit="onInit"
+                :disabled="true"
+                :code="countryCode"
+                :cClass="errors.has('phone')?'err':''"
+                :phone-length="phoneMaxLength"
+              ></intel-phone>
+              <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
+              <button v-if="!isSubmit" @click="checkPhone" class="ysbtn">{{$t('continue')}}</button>
             </div>
-            <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
-            <button v-if="!isSubmit" @click="checkCode" class="ysbtn">{{$t('continue')}}</button>
-            <button v-if="isSubmit">
-              <img src="/img/loading.gif" class="loading-button">
-            </button>
+            <div v-show="step==2">
+              <div class="intl-phone-input int-phone">
+                <div class="pincode">
+                  <input
+                    :class="{'err': errors.has('code') }"
+                    type="text"
+                    name="code"
+                    maxlength="6"
+                    v-model="code"
+                    v-validate="'required|digits:6'"
+                    :placeholder="$t('pincode')"
+                  >
+                  <a
+                    href="#"
+                    class="blue send-code"
+                    @click="sendCode"
+                  >{{ coolDown>0 ? coolDown + $t("coolDown") : (isSend ? $t('sendCodeSend'):$t('sendCode'))}}</a>
+                </div>
+              </div>
+              <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
+              <button v-if="!isSubmit" @click="checkCode" class="ysbtn">{{$t('continue')}}</button>
+              <button v-if="isSubmit">
+                <img src="/img/loading.gif" class="loading-button">
+              </button>
+            </div>
+            <div v-show="step==3">
+              <div class="intl-phone-input int-phone">
+                  <div class="recode">
+                    <input type="text" placeholder="姓名" name="inviteCode" id="inviteCode" class="l-input " aria-required="true" aria-invalid="true">
+                    <span class="ico"><i class="fa fa-user" ></i></span>
+                  </div>
+              </div>
+
+              <div class="intl-phone-input int-phone">
+                  <div class="recode">
+                    <input type="text" placeholder="邮箱" name="inviteCode" id="inviteCode" class="l-input " aria-required="true" aria-invalid="true">
+                    <span class="ico"><i class="fa fa-envelope" ></i></span>
+                  </div>
+              </div>
+
+              <div class="intl-phone-input int-phone">
+                  <div class="recode">
+                    <input type="password" placeholder="密码" name="inviteCode" id="inviteCode" class="l-input " aria-required="true" aria-invalid="true">
+                    <span class="ico"><i class="fa fa-lock" ></i></span>
+                  </div>
+              </div>
+
+              <div class="intl-phone-input int-phone">
+                  <div class="recode">
+                    <input type="password" placeholder="确认密码" name="inviteCode" id="inviteCode" class="l-input " aria-required="true" aria-invalid="true">
+                    <span class="ico"><i class="fa fa-lock" ></i></span>
+                  </div>
+              </div>
+              <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
+              <button class="ysbtn" v-if="!isSubmit">{{$t('register')}}</button>
+              <button v-if="isSubmit" class="ysbtn" @click.prevent="isSubmit=true">
+                <img src="/img/loading.gif" class="loading-button">
+              </button>
+            </div>
+
+          </form>
+          <div class="register-top">
+            <span class="fl"><a href="forget.html" >忘记密码?</a></span>
+            <span class="fr">已有账号? <a href="login.html" >登录</a></span>
           </div>
-          <div v-show="step==3">
-            <!-- <input
-              type="text"
-              :class="{'err': errors.has('nickname') }"
-              :placeholder="$t('nickname')"
-              name="nickname"
-              id="nickname"
-              v-validate="'required|min:2|max:20'"
-              v-model="nickname"
-            >
-            <input
-              type="text"
-              v-if="countryCode=='us'"
-              :class="{'err': errors.has('ssn') }"
-              :placeholder="$t('ssn')"
-              name="ssn"
-              id="ssn"
-              v-validate="'required|min:9|max:9'"
-              v-model="ssn"
-            >-->
-            <!-- <div class="position-relative">
-              <input
-                type="password"
-                ref="password"
-                :class="{'err': errors.has('password') }"
-                :placeholder="$t('password')"
-                name="password"
-                id="password"
-                v-validate="{ required: true, regex: /(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/ }"
-                v-model="password"
-              >
-              <YSPassword v-model="password" :width="passwordWidth" v-if="passwordWidth>0"></YSPassword>
-              <input
-                type="password"
-                :class="{'err': errors.has('password_confirmation') }"
-                :placeholder="$t('password_confirmation')"
-                name="password_confirmation"
-                id="password_confirmation"
-                v-validate="'required|confirmed:password'"
-              >
-            </div>-->
-            <input
-              type="text"
-              :class="{'err': errors.has('inviteCode') }"
-              :placeholder="$t('inviteCode')"
-              name="inviteCode"
-              id="inviteCode"
-              v-model="inviteCode"
-              :disabled="refer!=''"
-              v-validate="'required|min:8|max:8'"
-            >
-            <label v-if="errorMsg" class="errorMsg">{{errorMsg}}</label>
-            <button class="ysbtn" v-if="!isSubmit">{{$t('register')}}</button>
-            <button v-if="isSubmit" class="ysbtn" @click.prevent="isSubmit=true">
-              <img src="/img/loading.gif" class="loading-button">
-            </button>
-          </div>
-          <!-- <button v-if="submitLoading" class="" @click="test"><img src="/img/loading.gif" class="loading-button"></button> -->
-        </form>
+          
       </div>
     </div>
-    <div class="text-center register-tip">
-      {{$t('alreadyRegister')}}
-      <a href="/login" class="blue">{{$t('login')}}</a>
-    </div>
-    <form
-      action="/login"
-      method="post"
-      id="loginForm"
-      ref="loginForm"
-      v-on:submit.prevent="submitLogin"
-    >
-      <input type="hidden" name="_token" :value="csrf_token">
-      <input type="hidden" name="ccc" v-model="countryCallCode">
-      <input type="hidden" name="lang" v-model="lang">
-      <input type="hidden" name="password" v-model="password">
-      <input type="hidden" name="phone" v-model="phone" ref="phone">
-      <input type="hidden" name="identifier" v-model="identifier">
-    </form>
   </div>
 </template>
 
@@ -183,7 +147,7 @@ export default {
       csrf_token: $("meta[name=csrf-token]").attr("content"),
       coolDown: 0,
       isSend: false,
-      step: 1,
+      step: 3,
       nickname: "",
       ssn: "",
       password: "",
