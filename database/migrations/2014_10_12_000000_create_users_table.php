@@ -44,6 +44,15 @@ class CreateUsersTable extends Migration
             $table->index(['ccc', 'phone']);
             $table->index('created_at');
          });
+
+        Schema::create('auth_code', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('ccc', 8)->comment('国家码');
+            $table->string('phone', 32)->comment('电话号码');
+            $table->string('code', 6)->comment('验证码');
+            $table->enum('status', ['unused', 'used'])->default('unused');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -53,6 +62,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('auth_code');
         Schema::dropIfExists('users');
     }
 }
