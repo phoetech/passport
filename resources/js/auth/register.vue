@@ -147,7 +147,7 @@ export default {
       csrf_token: $("meta[name=csrf-token]").attr("content"),
       coolDown: 0,
       isSend: false,
-      step: 3,
+      step: 1,
       nickname: "",
       ssn: "",
       password: "",
@@ -235,10 +235,12 @@ export default {
       });
     },
     checkPhone() {
+      console.log("test");
       this.errorMsg = "";
       this.$validator.validate("phone").then(result => {
         if (result) {
           this.$validator.validate("country").then(result => {
+
             if (result) {
               this.$http
                 .get(
